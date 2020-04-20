@@ -1,0 +1,22 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+a {
+    color: white;
+}
+
+#back {
+    position: absolute;
+    top: 25%;
+    left: 46%;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 5px;
+    margin: auto;
+    text-align: center;
+    border: 1px solid gray;
+    border-radius: 3px;
+}
