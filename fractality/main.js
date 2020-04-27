@@ -51,7 +51,7 @@ canvas.onmousedown = function(e) {
     [RE_START_NEW, IM_START_NEW] = screenToComplexCoords(e.clientX, e.clientY);
 }
 
-canvas.onmousemove = function(e) {
+canvas.onmousemove = function (e) {
     regionBoxXEnd = e.clientX;
     regionBoxYEnd = e.clientY;
     calculateRegionBox();
@@ -67,15 +67,15 @@ canvas.onmouseup = function(e) {
     if (IM_START > IM_END) {
         [IM_START, IM_END] = [IM_END, IM_START];
     }
-    startRender();
+   startRender();
 }
 
 regionBox.onmousemove = canvas.onmousemove;
 regionBox.onmouseup = canvas.onmouseup;
 
 function calculateRegionBox() {
-    let [x1, x2] = [regionBoxXStart, regionBoxXEnd].sort();
-    let [y1, y2] = [regionBoxYStart, regionBoxYEnd].sort();
+    let [x1, x2] = [regionBoxXStart, regionBoxXEnd].sort(compareFunc);
+    let [y1, y2] = [regionBoxYStart, regionBoxYEnd].sort(compareFunc);
 
     regionBox.style.left = x1 + "px";
     regionBox.style.width = (x2 - x1) + "px";
@@ -105,26 +105,8 @@ for (let i = 0; i < palettes.length; i++) {
 
 /* Other */
 let iterationsInput = document.getElementById("iterationsInput");
-let iterationsInputApply = document.getElementById("iterationsInputApply");
-const ENTER_KEY = 13;
 iterationsInput.value = `${MAX_ITER_DEFAULT}`;
 iterationsInput.innerHTML = MAX_ITER_DEFAULT;
-iterationsInput.onkeypress = function(e) {
-    if (e.keyCode == ENTER_KEY) {
-        iterationsInputApply.click();
-    }
-}
-iterationsInputApply.onclick = function() {
-    let inp = parseInt(iterationsInput.value);
-    if (inp != NaN && inp > 0) {
-        MAX_ITER = inp;
-        startRender();
-    }
-    else {
-        iterationsInput.value = `${MAX_ITER_DEFAULT}`;
-    }
-}
-
 document.getElementById("resetButton").onclick = function() {
     MAX_ITER = MAX_ITER_DEFAULT;
     iterationsInput.value = `${MAX_ITER_DEFAULT}`;
@@ -134,16 +116,24 @@ document.getElementById("resetButton").onclick = function() {
     IM_END = IM_END_DEFAULT;
     startRender();
 }
-/* ------------------- */
-
-function fixAspectRatio() {
-
+document.getElementById("iterationsInputApply").onclick = function() {
+    let inp = parseInt(iterationsInput.value);
+    if (inp != NaN && inp > 0) {
+        MAX_ITER = inp;
+        startRender();
+    }
+    else {
+        iterationsInput.value = `${MAX_ITER_DEFAULT}`;
+    }
 }
+/* ------------------- */
 
 function startRender() {
     y = 0;
     RENDERING = true;
 }
+
+function compareFunc(a, b) { return (a < b) ? -1 : 1; }
 
 function screenToComplexCoords(x, y) {
     let realPerPixel = Math.abs(RE_START - RE_END) / window.innerWidth;
