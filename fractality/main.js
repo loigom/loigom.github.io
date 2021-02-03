@@ -22,7 +22,7 @@ const IDEAL_ASPECT = window.innerWidth / window.innerHeight;
 /* These variables are for thread control so the entire window isn't blocked until the entire fractal is finished rendering. */
 let RENDERING = true;
 const DRAW_TICKRATE = 1;
-const ROWS_PER_TICK = 8; /* This determines how many rows get rendered before the thread control is released back to the browser for drawing on screen.
+const ROWS_PER_TICK = 10; /* This determines how many rows get rendered before the thread control is released back to the browser for drawing on screen.
                             A higher amount generally means faster rendering, but the process looks more choppy. */
 let y = 0; // The y-coordinate used in draw()
 /* ------------------- */
@@ -36,30 +36,28 @@ const canvas = document.getElementById("canv");
 const ctx = canvas.getContext("2d");
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
+const ASPECT_RATIO = canvas.height / canvas.width;
 
 const regionBox = document.getElementById("region"); /* Visual representation of the region that the user wants to zoom into */
-let regionBoxXStart = 0;
-let regionBoxYStart = 0;
-let regionBoxXEnd = 0;
-let regionBoxYEnd = 0;
+let regionBoxXStart, regionBoxYStart, regionBoxXEnd, regionBoxYEnd;
 
 canvas.onmousedown = function(e) {
     regionBox.hidden = 0;
-    regionBoxXStart = e.clientX;
-    regionBoxYStart = e.clientY;
-    calculateRegionBox();
+    regionBoxXStart = regionBoxXEnd = e.clientX;
+    regionBoxYStart = regionBoxYEnd = e.clientY;
     [RE_START_NEW, IM_START_NEW] = screenToComplexCoords(e.clientX, e.clientY);
+    calculateRegionBox();
 }
 
 canvas.onmousemove = function (e) {
     regionBoxXEnd = e.clientX;
-    regionBoxYEnd = e.clientY;
+    regionBoxYEnd = Math.round((regionBoxXEnd - regionBoxXStart) * ASPECT_RATIO + regionBoxYStart);
     calculateRegionBox();
 }
 
 canvas.onmouseup = function(e) {
     regionBox.hidden = 1;
-    [RE_END, IM_END] = screenToComplexCoords(e.clientX, e.clientY);
+    [RE_END, IM_END] = screenToComplexCoords(regionBoxXEnd, regionBoxYEnd);
     [RE_START, IM_START] = [RE_START_NEW, IM_START_NEW];
     if (RE_START > RE_END) {
         [RE_START, RE_END] = [RE_END, RE_START];
