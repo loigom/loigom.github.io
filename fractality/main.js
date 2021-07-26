@@ -16,13 +16,15 @@ let IM_END = IM_END_DEFAULT;
 let RE_START_NEW;
 let IM_START_NEW;
 
+let FRACTAL_FUNCTION = mandelbrot;
+
 const IDEAL_ASPECT = window.innerWidth / window.innerHeight;
 /* ------------------- */
 
 /* These variables are for thread control so the entire window isn't blocked until the entire fractal is finished rendering. */
 let RENDERING = true;
 const DRAW_TICKRATE = 1;
-const ROWS_PER_TICK = 10; /* This determines how many rows get rendered before the thread control is released back to the browser for drawing on screen.
+const ROWS_PER_TICK = 8; /* This determines how many rows get rendered before the thread control is released back to the browser for drawing on screen.
                             A higher amount generally means faster rendering, but the process looks more choppy. */
 let y = 0; // The y-coordinate used in draw()
 /* ------------------- */
@@ -36,28 +38,30 @@ const canvas = document.getElementById("canv");
 const ctx = canvas.getContext("2d");
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
-const ASPECT_RATIO = canvas.height / canvas.width;
 
 const regionBox = document.getElementById("region"); /* Visual representation of the region that the user wants to zoom into */
-let regionBoxXStart, regionBoxYStart, regionBoxXEnd, regionBoxYEnd;
+let regionBoxXStart = 0;
+let regionBoxYStart = 0;
+let regionBoxXEnd = 0;
+let regionBoxYEnd = 0;
 
 canvas.onmousedown = function(e) {
     regionBox.hidden = 0;
-    regionBoxXStart = regionBoxXEnd = e.clientX;
-    regionBoxYStart = regionBoxYEnd = e.clientY;
-    [RE_START_NEW, IM_START_NEW] = screenToComplexCoords(e.clientX, e.clientY);
+    regionBoxXStart = e.clientX;
+    regionBoxYStart = e.clientY;
     calculateRegionBox();
+    [RE_START_NEW, IM_START_NEW] = screenToComplexCoords(e.clientX, e.clientY);
 }
 
 canvas.onmousemove = function (e) {
     regionBoxXEnd = e.clientX;
-    regionBoxYEnd = Math.round((regionBoxXEnd - regionBoxXStart) * ASPECT_RATIO + regionBoxYStart);
+    regionBoxYEnd = e.clientY;
     calculateRegionBox();
 }
 
 canvas.onmouseup = function(e) {
     regionBox.hidden = 1;
-    [RE_END, IM_END] = screenToComplexCoords(regionBoxXEnd, regionBoxYEnd);
+    [RE_END, IM_END] = screenToComplexCoords(e.clientX, e.clientY);
     [RE_START, IM_START] = [RE_START_NEW, IM_START_NEW];
     if (RE_START > RE_END) {
         [RE_START, RE_END] = [RE_END, RE_START];
@@ -115,7 +119,17 @@ document.getElementById("resetButton").onclick = function() {
     startRender();
 }
 document.getElementById("iterationsInputApply").onclick = function() {
-    let inp = parseInt(iterationsInput.value);
+    const fractalSelectButtons = document.getElementsByName("fractalSelect");
+    for (let i = 0; i < fractalSelectButtons.length; i++) {
+        if (fractalSelectButtons[i].checked) {
+            FRACTAL_FUNCTION = {
+                "Mandelbrot": mandelbrot,
+                "Burning ship": burningShip
+            }[fractalSelectButtons[i].value];
+            break;
+        }
+    }
+    const inp = parseInt(iterationsInput.value);
     if (inp != NaN && inp > 0) {
         MAX_ITER = inp;
         startRender();
@@ -177,7 +191,8 @@ function draw() {
                 for (let x = 0; x < canvas.width; x++) {
                     let real = RE_START + (x / canvas.width) * realDistance;
                     let imag = IM_START + (y / canvas.height) * imagDistance;
-                    let iters = mandelbrot(real, imag);
+                    //let iters = mandelbrot(real, imag);
+                    let iters = FRACTAL_FUNCTION(real, imag);
                     let [r, g, b] = setRBG(iters);
                     setPixel(x, y, r, g, b);
                 }
@@ -185,19 +200,6 @@ function draw() {
             }
         }
     }
-}
-
-function mandelbrot(real_constant, imag_constant) {
-    let iters = real = imag = 0;
-    let realSq, imagSq, newReal, newImag;
-    while ((realSq = real*real) + (imagSq = imag*imag) <= MOD_CONST && iters < MAX_ITER) {
-        newReal = realSq - imagSq + real_constant;
-        newImag = 2 * real * imag + imag_constant;
-        real = newReal;
-        imag = newImag;
-        iters++;
-    }
-    return iters;
 }
 
 setInterval(draw, DRAW_TICKRATE);
