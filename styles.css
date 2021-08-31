@@ -19,4 +19,13 @@ a {
     text-align: center;
     border: 1px solid gray;
     border-radius: 3px;
+    z-index: 10;
 }
+
+#video {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+  }
