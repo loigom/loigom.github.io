@@ -10,9 +10,16 @@ a {
     color: white;
 }
 
+img {
+    width: 20px;
+}
+
+#logoBanner {
+    background-color: rgba(255, 255, 255, 0.788);
+}
+
 .back {
     position: absolute;
-    top: 15%;
     background-color: rgba(255, 0, 242, 0.308);
     padding: 5px;
     margin: auto;
