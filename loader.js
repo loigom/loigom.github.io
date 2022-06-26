@@ -15,14 +15,18 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function load() {
+async function processIntroduction() {
+    let container = document.getElementById("introductionContainer");
+    container.style.visibility = "visible";
     await sleep(500);
-    let texts = document.getElementById("introductionContainer").getElementsByTagName("p");
-    console.log(texts);
+    let texts = container.getElementsByTagName("p");
     for (let i = 0; i < texts.length; i++) {
         unfade(texts[i]);
         await sleep(1500);
     }
+    unfade(document.getElementById("arrow"));
+    document.getElementById("contents").hidden = false;
 }
 
-load();
+
+processIntroduction();

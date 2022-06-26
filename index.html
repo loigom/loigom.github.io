@@ -13,14 +13,48 @@
   </head>
 
   <body>
-    <p class="title">hello.</p>
+    <canvas id="geometry"></canvas>
+
+    <p id="hello" class="titleElement">hello.</p>
     <div id="introductionContainer">
-      <p class="col-sm introduction">i'm tanel.</p>
+      <p class="col-sm introduction">i'm tanel. 🇪🇪</p>
       <p class="col-sm introduction">i write software.</p>
     </div>
-    <canvas id="geometry"></canvas>
+    <p id="arrow" class="titleElement">↓</p>
+    
+    <div id="contents">
+      <div class="project">
+        <div class="row">
+          <div class="col">
+            <a href="fractality/index.html"> <!-- image, link from image -->
+              <img src="images/fractality.png">
+            </a>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <img src="icons/js.png" class="icon"> <!-- icon -->
+                <a href="fractality/index.html">fractality</a> <!-- project title -->
+            </div>
+            <div class="row">
+              A web application, written from scratch, to allow the real-time rendering of the Mandelbrot & Burning ship fractals.
+              <br>
+              Fractals can be, in theory, infinitely zoomed into.
+              <br>
+              Support for editing a handful of variables, such as iterations per pixel (quality) and color selection.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 	  <script src="geometry.js"></script>
     <script src="loader.js"></script>
+    <script>
+      let linkElements = document.getElementsByTagName("a");
+      for (let i = 0; i < linkElements.length; i++) {
+        linkElements[i].target = "_blank";
+      }
+    </script>
   </body>
 
 </html>

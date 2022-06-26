@@ -9,8 +9,10 @@ ctx.strokeStyle = '#fc0303';
 const TICK_RATE = 30;
 const POINTS_COUNT = 5;
 
+
 class Point {
     constructor() {
+        this.r = 2
         this.x = Math.floor(Math.random() * canvas.width);
         this.y = Math.floor(Math.random() * canvas.height);
         this.x_direction = Math.floor(Math.random() * 2);
@@ -44,7 +46,7 @@ class Point {
 
     draw() {
         ctx.beginPath();
-        ctx.arc(this.x, this.y, 2, 0, 2 * Math.PI);
+        ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
         ctx.fill(); 
     }
 }
