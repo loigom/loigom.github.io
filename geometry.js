@@ -1,7 +1,6 @@
-let canvas = document.createElement("canvas");
+let canvas = document.getElementById("geometry");
 canvas.width = innerWidth;
 canvas.height = innerHeight;
-document.body.appendChild(canvas);
 
 let ctx = canvas.getContext("2d");
 ctx.fillStyle = "red";
