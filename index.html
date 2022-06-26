@@ -1,40 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>tloigom</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
   </head>
+
   <body>
-    <div class="back" id="logoBanner">
-      <a href="https://github.com/loigom" target="_blank">
-        <img src="logos/github.png"></a>
-      <a href="https://www.instagram.com/tloigom/" target="_blank">
-        <img src="logos/instagram.png">
-      </a>
+    <canvas id="geometry"></canvas>
+
+    <p id="hello" class="titleElement">hello.</p>
+    <div id="introductionContainer">
+      <p class="col-sm introduction">i'm tanel. 🇪🇪</p>
+      <p class="col-sm introduction">i write software.</p>
     </div>
-    <div class="back">
-      <div>
-        <a href=elronSpeedTrap/index.html>elronSpeedTrap</a>
-      </div>
-      <div>
-        <a href="fractality/index.html">fractality</a>
-      </div>
-      <div>
-        <a href="krypto_app/index.html">kryptoApp</a>
-      </div>
-      <div>
-        <strike style="color: white;"><a href="sissejuhatus.html">sissejuhatuse asi</a></strike>
-      </div>
-    </div>
-    <!--<canvas id="canvas"></canvas>
-    <script src="topology.js"></script>
-    <script src="main.js"></script>
-    <video autoplay muted loop id="video" width=100%>
-      <source src="background.mp4" type="video/mp4">
-    </video>-->
+    <p id="arrow" class="titleElement">↓</p>
     
-    <script src="backgroundLoader.js"></script>
-    <script src="alignBoxes.js"></script>
+    <div id="contents">
+      <div class="project">
+        <div class="row">
+          <div class="col">
+            <a href="fractality/index.html"> <!-- image, link from image -->
+              <img src="images/fractality.png">
+            </a>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <img src="icons/js.png" class="icon"> <!-- icon -->
+                <a href="fractality/index.html">fractality</a> <!-- project title -->
+            </div>
+            <div class="row">
+              A web application, written from scratch, to allow the real-time rendering of the Mandelbrot & Burning ship fractals.
+              <br>
+              Fractals can be, in theory, infinitely zoomed into.
+              <br>
+              Support for editing a handful of variables, such as iterations per pixel (quality) and color selection.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+	  <script src="geometry.js"></script>
+    <script src="loader.js"></script>
+    <script>
+      let linkElements = document.getElementsByTagName("a");
+      for (let i = 0; i < linkElements.length; i++) {
+        linkElements[i].target = "_blank";
+      }
+    </script>
   </body>
+
 </html>

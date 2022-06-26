@@ -1,0 +1,70 @@
+html {
+    overflow-x: hidden;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Roboto', sans-serif;
+    font-size: larger;
+    font-weight: bolder;
+    
+}
+
+.titleElement {
+    font-size: 200px;
+    letter-spacing: 30px;
+    position: absolute;
+}
+
+#hello {
+    left: 32%;
+    top: 10%;
+}
+
+#arrow {
+    top: 60%;
+    left: 42%;
+    opacity: 0;
+}
+
+#introductionContainer {
+    left: 35%;
+    top: 45%;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.6);
+    border: white;
+    border-radius: 8px;
+    visibility: hidden;
+}
+
+.introduction {
+    opacity: 0;
+}
+
+#contents {
+    margin: 12%;
+}
+
+img {
+    width: 600px;
+    border: 1px solid black;
+    border-radius: 6px;
+}
+
+a {
+    color: black;
+    text-decoration: underline;
+    font-size: xx-large;
+}
+
+.icon {
+    width: 48px;
+    border: 0;
+    padding-right: 5px;
+}
+
+.project {
+    border-top: 1px solid black;
+    padding-top: 2%;
+}
