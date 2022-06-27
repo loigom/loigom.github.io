@@ -15,7 +15,7 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function processIntroduction() {
+async function main() {
     let container = document.getElementById("introductionContainer");
     container.style.visibility = "visible";
     await sleep(500);
@@ -29,4 +29,4 @@ async function processIntroduction() {
 }
 
 
-processIntroduction();
+main();
